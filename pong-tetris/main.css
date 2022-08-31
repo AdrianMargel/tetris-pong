@@ -1,0 +1,9 @@
+body{
+	overflow: hidden;
+	background-color: #EFE9D7;
+	background: radial-gradient(#EFE9D7 20%, #E2D9C3 100%);
+}
+#canvasContainer{
+	width: 100vw;
+	height: 100vh;
+}
