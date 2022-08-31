@@ -183,9 +183,14 @@ class Game{
 		disp.setWeight(1);
 
 		this.board.forEach(col=>
+			col.forEach(tile=>tile.displayBack(disp))
+		);
+		this.block.displayBack(disp);
+		this.board.forEach(col=>
 			col.forEach(tile=>tile.display(disp))
 		);
 		this.block.display(disp);
+
 		this.paddle.display(disp);
 		this.particles.forEach(x=>x.display(disp));
 		this.ball.display(disp);
@@ -215,6 +220,8 @@ class Paddle{
 	}
 	run(game,ctrl){
 		let targetP=ctrl.getMouse(gameDisplay.cam);
+		// targetP=new Vector(game.ball.pos);
+		// targetP.x+=0.5;
 		targetP.x-=this.size/2;
 		this.velo.x=targetP.x-this.pos.x;
 		this.velo.limVec(this.speed);
@@ -355,7 +362,17 @@ class Tile{
 		disp.setWeight(3);
 		disp.setStroke(overlayColor("#808080",this.col));
 		disp.setFill(overlayColor("#B0B0B0",this.col));
-		disp.rect2(this.pos.x,this.pos.y,1,1)
+		let extra=1.5/disp.cam.zoom;
+		disp.rect2(this.pos.x+extra,this.pos.y+extra,1-extra*2,1-extra*2)
+	}
+	displayBack(disp){
+		if(!this.filled)
+			return;
+		disp.setWeight(3);
+		disp.setStroke(overlayColor("#808080",this.col));
+		disp.setFill(overlayColor("#B0B0B0",this.col));
+		let extra=1/disp.cam.zoom;
+		disp.rect2(this.pos.x+extra,this.pos.y+extra,1-extra*2,1-extra*2)
 	}
 	check(game){
 		if(!this.filled){
@@ -628,6 +645,9 @@ class Block{
 	}
 	display(disp){
 		this.shape.forEach(t=>t.display(disp));
+	}
+	displayBack(disp){
+		this.shape.forEach(t=>t.displayBack(disp));
 	}
 }
 
